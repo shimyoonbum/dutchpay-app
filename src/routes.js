@@ -1,7 +1,9 @@
 export const ROUTES = {
     CREATE_GROUP: "/groups",
-    ADD_MEMBERS: "/groups/:guid/members",
-    EXPENSE_MAIN: "/groups/:guid/expenses",
+    // ADD_MEMBERS: "/groups/:guid/members",
+    ADD_MEMBERS: "/members",
+    EXPENSE_MAIN: "/expenses",
+    // EXPENSE_MAIN: "/groups/:guid/expenses",
 }
   
 const replaceGuid = (route, guid) => route.replace(":guid", guid)

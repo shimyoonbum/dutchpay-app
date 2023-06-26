@@ -1,15 +1,16 @@
 import { CreateGroup } from './CreateGroup';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
 const renderComponent = () => {
     render(
-    //   <BrowserRouter>
+      <BrowserRouter>
         <RecoilRoot>
           <CreateGroup />
         </RecoilRoot>
-    //   </BrowserRouter>
+      </BrowserRouter>
     )
   
     const input = screen.getByPlaceholderText('2022 제주도 여행')
