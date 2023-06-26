@@ -6,30 +6,29 @@ import { groupMembersState } from "../state/groupMembers"
 import { groupNameState } from "../state/groupName"
 import styled from 'styled-components'
 import { Button, Container, Form, Row } from "react-bootstrap"
+import { ROUTES } from "../routes"
+import { useNavigate } from "react-router-dom"
 
 export const AddMembers = () => {
     const [validated, setValidated] = useState(false)
-    // const setGroupMembers = useSetRecoilState(groupMembersState)
+    const [groupMembersString, setGroupMembersString] = useState('')
     const [groupMembers, setGroupMembers] = useRecoilState(groupMembersState)
     const groupName = useRecoilValue(groupNameState)
+    const navigate = useNavigate()
 
     const handleSubmit = (event) => {
         event.preventDefault()
-    
-        const form = event.currentTarget
-        // if (form.checkValidity()) {
-        //     setValidGroupName(true)
-        //     //saveGroupName()
-        // } else {
-        //     event.stopPropagation();
-        //     setValidGroupName(false)
-        // }
+        console.log(groupMembers);
         setValidated(true)
+        if (groupMembers && groupMembers.length > 0) {
+            navigate(ROUTES.EXPENSE_MAIN)
+        }else if (isSamsungInternet && groupMembersString.length > 0) {
+            setGroupMembers(groupMembersString.split(','))
+        }
     }
 
     const isSamsungInternet = window.navigator.userAgent.includes('SAMSUNG')
     const header = `${groupName} 그룹에 속한 사람들의 이름을 모두 적어 주세요.`
-    // const header = `그룹에 속한 사람들의 이름을 모두 적어 주세요.`
 
     return (
         <CenteredOverlayForm
@@ -40,7 +39,7 @@ export const AddMembers = () => {
             { isSamsungInternet ?
                 <Form.Control
                 placeholder="이름 간 컴마(,)로 구분"
-                // onChange={({target}) => setGroupMembersString(target.value)}
+                onChange={({target}) => setGroupMembersString(target.value)}
                 />
             :
                 <InputTags

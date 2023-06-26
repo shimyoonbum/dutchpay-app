@@ -82,8 +82,7 @@ export const calculateMinimumTransaction = (expenses, members, amountPerPerson) 
 export const SettlementSummary = () => {
     const wrapperElement = useRef(null)
     const expenses = useRecoilValue(expensesState)
-    // const members = useRecoilValue(groupMembersState)
-    const members = ['A', 'B', 'C', 'D']
+    const members = useRecoilValue(groupMembersState)
 
     const totalExpenseAmount = parseFloat(expenses.reduce((prevAmount, curExpense) => prevAmount + parseFloat(curExpense.amount), 0)).toFixed(2)
     const groupMembersCount = members ? members.length : 0
@@ -105,7 +104,7 @@ export const SettlementSummary = () => {
                     <StyledUl>
                         {minimumTransaction.map(({ sender, receiver, amount}, index) =>
                             <li key={`transaction-${index}`}>
-                            <span>{sender} → {receiver} : {amount.toFixed(2)}</span>
+                                <span>{sender} → {receiver} : {amount.toFixed(2)}</span>
                             </li>
                         )}
                     </StyledUl>
