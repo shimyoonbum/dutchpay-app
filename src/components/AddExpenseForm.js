@@ -95,7 +95,7 @@ export const AddExpenseForm = () => {
                 <StyledFormGroup>
                   <Form.Control
                     type="number"
-                    step="0.01"
+                    step="10"
                     placeholder="비용은 얼마였나요?"
                     min="0"
                     value={amount}
@@ -120,10 +120,6 @@ export const AddExpenseForm = () => {
                     onChange={({target}) => setPayer(target.value)}
                   >
                     <option disabled value="">누가 결제 했나요?</option>
-                    <option>A</option>
-                    <option>B</option>
-                    <option>C</option>
-                    <option>D</option>
                     {members && members.map(member =>
                       <option key={member} value={member}>{member}</option>
                     )}
