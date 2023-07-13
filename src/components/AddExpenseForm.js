@@ -53,7 +53,7 @@ export const AddExpenseForm = () => {
         alert("비용 추가에 실패 했습니다. 다시 시도해 주세요.")
       })
     }
-  
+    
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -67,6 +67,10 @@ export const AddExpenseForm = () => {
               payer,
           }
           saveExpense(newExpense)         
+          setExpense(expense => [
+              ...expense,
+              newExpense,
+          ])
         }
         
         setValidated(true)
