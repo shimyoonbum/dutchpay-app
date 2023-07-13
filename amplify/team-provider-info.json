@@ -41,7 +41,16 @@
     },
     "categories": {
       "function": {
-        "groupsLambda": {},
+        "groupsLambda": {
+          "deploymentBucketName": "amplify-dutchpayapp-main-151936-deployment",
+          "s3Key": "amplify-builds/groupsLambda-41706566354235777867-build.zip"
+        },
+        "groups": {}
+      },
+      "api": {
+        "groupsApi": {}
+      },
+      "storage": {
         "groups": {}
       }
     }
