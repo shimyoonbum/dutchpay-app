@@ -4,10 +4,13 @@ import { Button, Col, Form, Row } from "react-bootstrap"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { groupMembersState } from "../state/groupMembers"
 import { expensesState } from "../state/expenses"
+import { API } from "aws-amplify"
+import { groupIdState } from "../state/groupId"
 
 export const AddExpenseForm = () => {
     const [validated, setValidated] = useState(false)
     const members = useRecoilValue(groupMembersState)
+    const guid = useRecoilValue(groupIdState)
     
     const today = new Date()
     const [date, setDate] = useState([today.getFullYear(), today.getMonth() + 1, `0${today.getDate()}`.slice(-2)].join("-"))    //비용 년월일
@@ -34,6 +37,24 @@ export const AddExpenseForm = () => {
       return descValid && payerValid && amountValid
     }
 
+    const saveExpense = (expense) => {
+      API.put('groupsApi', `/groups/${guid}/expenses`, {
+        body: {
+          expense
+        }
+      })
+      .then(_response => {
+        setExpense(expenses => [
+          ...expenses,
+          expense,
+        ])
+      })
+      .catch(_error => {
+        alert("비용 추가에 실패 했습니다. 다시 시도해 주세요.")
+      })
+    }
+  
+
     const handleSubmit = (event) => {
         event.preventDefault()
         event.stopPropagation()
@@ -45,10 +66,7 @@ export const AddExpenseForm = () => {
               amount,
               payer,
           }
-          setExpense(expense => [
-              ...expense,
-              newExpense,
-          ])
+          saveExpense(newExpense)         
         }
         
         setValidated(true)

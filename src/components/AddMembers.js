@@ -4,24 +4,40 @@ import { InputTags } from "react-bootstrap-tagsinput"
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil"
 import { groupMembersState } from "../state/groupMembers"
 import { groupNameState } from "../state/groupName"
+import { groupIdState } from "../state/groupId"
 import styled from 'styled-components'
-import { Button, Container, Form, Row } from "react-bootstrap"
+import { Form } from "react-bootstrap"
 import { ROUTES } from "../routes"
 import { useNavigate } from "react-router-dom"
+import { API } from "aws-amplify"
 
 export const AddMembers = () => {
     const [validated, setValidated] = useState(false)
     const [groupMembersString, setGroupMembersString] = useState('')
     const [groupMembers, setGroupMembers] = useRecoilState(groupMembersState)
+    const [groupId, setGroupId] = useRecoilState(groupIdState)
     const groupName = useRecoilValue(groupNameState)
     const navigate = useNavigate()
 
+    const saveGroupMembers = () => {
+        API.put('groupsApi', `/groups/${groupId}/members`, {
+            body: {
+                members: groupMembers
+            }
+        })
+        .then(_response => {
+            navigate(ROUTES.EXPENSE_MAIN)
+        })
+        .catch(({ response }) => {
+            alert(response)
+        })
+    }
+    
     const handleSubmit = (event) => {
         event.preventDefault()
-        console.log(groupMembers);
         setValidated(true)
         if (groupMembers && groupMembers.length > 0) {
-            navigate(ROUTES.EXPENSE_MAIN)
+            saveGroupMembers()
         }else if (isSamsungInternet && groupMembersString.length > 0) {
             setGroupMembers(groupMembersString.split(','))
         }
