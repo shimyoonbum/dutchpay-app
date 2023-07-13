@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import styled from 'styled-components'
 import { API } from "aws-amplify"
+import { ROUTE_UTILS } from "../routes"
 
 export const CreateGroup = () => {
     const [validated, setValidated] = useState(false)
@@ -25,7 +26,8 @@ export const CreateGroup = () => {
         .then(({ data }) => {
             const { guid } = data
             setGroupId(guid)
-            navigate("/members")
+            //navigate("/members")
+            navigate(ROUTE_UTILS.ADD_MEMBERS(guid))
         })
         .catch((error) => {
             console.error(error)

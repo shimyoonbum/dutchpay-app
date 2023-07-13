@@ -13,16 +13,10 @@ if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + '-' + process.env.ENV;
 }
 
-const userIdPresent = false; // TODO: update in case is required to use that definition
 const partitionKeyName = "guid";
 const partitionKeyType = "S";
-const sortKeyName = "";
-const sortKeyType = "";
-const hasSortKey = sortKeyName !== "";
 const path = "/groups";
-const UNAUTH = 'UNAUTH';
 const hashKeyPath = '/:' + partitionKeyName;
-const sortKeyPath = hasSortKey ? '/:' + sortKeyName : '';
 
 // declare a new express app
 const app = express()
@@ -45,51 +39,20 @@ const convertUrlType = (param, type) => {
       return param;
   }
 }
-
-/********************************
- * HTTP Get method for list objects *
- ********************************/
-
-app.get(path + hashKeyPath, async function(req, res) {
-  const condition = {}
-  condition[partitionKeyName] = {
-    ComparisonOperator: 'EQ'
-  }
-
-  if (userIdPresent && req.apiGateway) {
-    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH ];
-  } else {
-    try {
-      condition[partitionKeyName]['AttributeValueList'] = [ convertUrlType(req.params[partitionKeyName], partitionKeyType) ];
-    } catch(err) {
-      res.statusCode = 500;
-      res.json({error: 'Wrong column type ' + err});
-    }
-  }
-
-  let queryParams = {
-    TableName: tableName,
-    KeyConditions: condition
-  }
-
-  try {
-    const data = await ddbDocClient.send(new QueryCommand(queryParams));
-    res.json(data.Items);
-  } catch (err) {
-    res.statusCode = 500;
-    res.json({error: 'Could not load items: ' + err.message});
-  }
-});
-
 /*****************************************
  * HTTP Get method for get single object -- 그룹 정보 읽기 API *
  *****************************************/
-app.get(path + hashKeyPath, async function (req, res) {
+app.get(`${path}${hashKeyPath}`, async function (req, res) {
   let queryParams = {
     TableName: tableName,
-    Key: { [partitionKeyName]: req.params[partitionKeyName] },
+    KeyConditionExpression: "#pk = :pkValue",
+    ExpressionAttributeNames: {
+      "#pk": partitionKeyName
+    },
+    ExpressionAttributeValues: {
+      ":pkValue": req.params[partitionKeyName]
+    }
   }
-
   try {
     const data = await ddbDocClient.send(new QueryCommand(queryParams));
     res.json(data.Items);

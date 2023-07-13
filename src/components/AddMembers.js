@@ -1,13 +1,13 @@
 import { useState } from "react"
 import { CenteredOverlayForm } from "./common/CenteredOverlayForm"
 import { InputTags } from "react-bootstrap-tagsinput"
-import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil"
+import { useRecoilValue, useRecoilState } from "recoil"
 import { groupMembersState } from "../state/groupMembers"
 import { groupNameState } from "../state/groupName"
 import { groupIdState } from "../state/groupId"
 import styled from 'styled-components'
 import { Form } from "react-bootstrap"
-import { ROUTES } from "../routes"
+import { ROUTE_UTILS } from "../routes"
 import { useNavigate } from "react-router-dom"
 import { API } from "aws-amplify"
 
@@ -17,6 +17,7 @@ export const AddMembers = () => {
     const [groupMembers, setGroupMembers] = useRecoilState(groupMembersState)
     const [groupId, setGroupId] = useRecoilState(groupIdState)
     const groupName = useRecoilValue(groupNameState)
+    const guid = useRecoilValue(groupIdState)
     const navigate = useNavigate()
 
     const saveGroupMembers = () => {
@@ -26,7 +27,7 @@ export const AddMembers = () => {
             }
         })
         .then(_response => {
-            navigate(ROUTES.EXPENSE_MAIN)
+            navigate(ROUTE_UTILS.EXPENSE_MAIN(guid))
         })
         .catch(({ response }) => {
             alert(response)
