@@ -15,7 +15,7 @@
       "function": {
         "groupsLambda": {
           "deploymentBucketName": "amplify-amplify5a9c3929c6074-staging-71701-deployment",
-          "s3Key": "amplify-builds/groupsLambda-44435773526467707979-build.zip"
+          "s3Key": "amplify-builds/groupsLambda-41706566354235777867-build.zip"
         }
       },
       "storage": {
