@@ -108,28 +108,12 @@ export const SettlementSummary = () => {
                             </li>
                         )}
                     </StyledUl>
-                    {/* <StyledButton data-testid="btn-download" onClick={exportToImage}>
-                        <Download />
-                    </StyledButton> */}
                 </>
             )}
         </StyledWrapper>
     )
 }
 
-const StyledButton = styled(Button)`
-  background: none;
-  border: none;
-  font-size: 25px;
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
-
-  &:hover, &:active {
-    background: none;
-    color: #683BA1;
-  }
-`
 const StyledWrapper = styled.div`
   padding: 1.5em;
   background-color: #683BA1;

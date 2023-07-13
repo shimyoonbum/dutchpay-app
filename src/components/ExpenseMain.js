@@ -2,6 +2,7 @@ import { Container, Row, Col } from "react-bootstrap"
 import { AddExpenseForm } from "./AddExpenseForm"
 import { ExpenseTable } from "./ExpenseTable"
 import { useState } from "react"
+import { useGroupData } from "./hooks/useGroupData"
 import styled from 'styled-components'
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { groupNameState } from "../state/groupName"
@@ -9,6 +10,8 @@ import { SettlementSummary } from "./SettlementSummary"
 
 
 export const ExpenseMain = () => {
+    useGroupData()
+
     return (       
         <Container fluid>
             <Row>
