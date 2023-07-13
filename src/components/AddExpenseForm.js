@@ -67,10 +67,10 @@ export const AddExpenseForm = () => {
               payer,
           }
           saveExpense(newExpense)         
-          setExpense(expense => [
-              ...expense,
-              newExpense,
-          ])
+          // setExpense(expense => [
+          //     ...expense,
+          //     newExpense,
+          // ])
         }
         
         setValidated(true)
